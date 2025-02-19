@@ -228,3 +228,4 @@ pyrightconfig.json
 /static/
 
 .idea
+.ruff_cache
