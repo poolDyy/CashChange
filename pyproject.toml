@@ -5,7 +5,6 @@ description = ""
 authors = [
     {name = "poldy",email = "poldy200@yandex.ru"}
 ]
-readme = "README.md"
 requires-python = ">=3.13, <3.14"
 dependencies = [
     "django (==5.1.6)",
@@ -21,12 +20,7 @@ dependencies = [
 ]
 
 [tool.poetry]
-packages = [
-    {include = "src", from = "."},
-    {include = "apps", from = "."},
-    {include = "tests", from = "."},
-    {include = "repository", from = "."},
-]
+packages = []
 
 
 [tool.poetry.group.test.dependencies]

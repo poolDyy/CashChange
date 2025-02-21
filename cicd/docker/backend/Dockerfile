@@ -19,8 +19,11 @@ RUN apt update && \
     pip install --upgrade pip uwsgi poetry==2.1.0 && \
     poetry config virtualenvs.create false
 
-COPY . /srv
 WORKDIR /srv
 
-RUN poetry install
+COPY ./pyproject.toml ./pyproject.toml
+COPY ./poetry.lock ./poetry.lock
+RUN poetry install --no-root
+
+COPY . /srv
 RUN ./manage.py collectstatic --no-input
