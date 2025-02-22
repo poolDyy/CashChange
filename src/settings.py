@@ -28,7 +28,9 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
-OUR_DJANGO_APPS = []
+OUR_DJANGO_APPS = [
+    'apps.users.apps.UsersConfig',
+]
 
 THIRD_PARTY_APPS = [
     'whitenoise.runserver_nostatic',
@@ -107,7 +109,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'auth.User'
+AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -116,7 +118,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_SCHEMA_CLASS': 'api.common.spectacular_schema.RequestResponseAutoSchema',
 }
 
 

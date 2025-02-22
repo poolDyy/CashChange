@@ -2,7 +2,7 @@ lint:
 	ruff check .
 
 test:
-	pytest .
+	docker exec -it backend pytest .
 
 logs:
 	docker logs -f backend

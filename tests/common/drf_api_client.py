@@ -7,7 +7,6 @@ __all__ = ['ApiTestClient']
 
 
 class ApiTestClient(APIClient):
-    # TODO: обязательно проверь expected_status у методов put patch delete
     @cached_property
     def api_client(self) -> APIClient:
         return APIClient()
@@ -55,9 +54,9 @@ class ApiTestClient(APIClient):
     def delete(
         self,
         *args,
-        expected_status: int = status.HTTP_200_OK,
+        expected_status: int = status.HTTP_204_NO_CONTENT,
         **kwargs,
     ):
         response = self.api_client.delete(*args, **kwargs)
         assert response.status_code == expected_status
-        return response.json()
+        return response

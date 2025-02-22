@@ -65,7 +65,7 @@ class SerializerViewSetMixin:
     def _none(*args: Any, **kwargs: Any) -> None:
         return None
 
-    def get_serializer_class(self, *, type_: str = SerializerType.RESPONSE) -> Optional[Type[Serializer]]:
+    def get_serializer_class(self, *, type_: str) -> Optional[Type[Serializer]]:
         action_name = getattr(self, 'action', None)
         if action_name and hasattr(self.serializers, action_name):
             serializer_mapping = getattr(self.serializers, action_name)
@@ -85,8 +85,8 @@ class SerializerViewSetMixin:
 class BaseModelViewSet(
     SerializerViewSetMixin,
     ExCreateModelMixin,
-    mixins.RetrieveModelMixin,
     ExUpdateModelMixin,
+    mixins.RetrieveModelMixin,
     mixins.DestroyModelMixin,
     mixins.ListModelMixin,
     GenericViewSet,

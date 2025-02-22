@@ -9,7 +9,7 @@ class SerializerTypeMapping:
     """Описывает типы сериализатора."""
 
     response: Type[Serializer]
-    request: Optional[Type[Serializer]] = None
+    request: Type[Serializer]
 
 
 @dataclass(frozen=True)
