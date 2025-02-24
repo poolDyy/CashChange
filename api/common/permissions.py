@@ -6,6 +6,7 @@ from rest_framework.viewsets import ViewSet
 
 __all__ = [
     'IsUnauthenticated',
+    'IsAuthenticatedAndNotVerified',
 ]
 
 
@@ -14,3 +15,10 @@ class IsUnauthenticated(BasePermission):
 
     def has_permission(self, request: Request, view: Type[ViewSet]) -> bool:
         return not request.user.is_authenticated
+
+
+class IsAuthenticatedAndNotVerified(BasePermission):
+    """Разрешение для авторизованных, но не верифицированных пользователей."""
+
+    def has_permission(self, request: Request, view: Type[ViewSet]) -> bool:
+        return request.user.is_authenticated and not request.user.is_verified

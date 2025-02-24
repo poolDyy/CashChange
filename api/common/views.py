@@ -8,7 +8,7 @@ from rest_framework.serializers import Serializer
 from rest_framework.viewsets import GenericViewSet
 
 from api.common.enums import SerializerType
-from api.common.types import SerializerMapping
+from api.common.types import SerializerMapping, SerializerTypeMapping
 
 
 class BaseGenericViewSet(GenericViewSet):
@@ -57,7 +57,9 @@ class ExUpdateModelMixin:
 
 
 class SerializerViewSetMixin:
-    """Миксин позволяющий использовать разные сериализаторы для запроса и ответа."""
+    """Миксин позволяющий использовать разные сериализаторы для запроса и ответа.
+    Используется для ручек для frontend части.
+    """
 
     serializers: SerializerMapping
 
@@ -65,12 +67,17 @@ class SerializerViewSetMixin:
     def _none(*args: Any, **kwargs: Any) -> None:
         return None
 
+    def _get_serializer_serializer_mapping_by_action(self, action_name: str) -> Optional[SerializerTypeMapping]:
+        if hasattr(self.serializers, action_name):
+            return getattr(self.serializers, action_name)
+        else:
+            return self.serializers.actions.get(action_name)
+
     def get_serializer_class(self, *, type_: str) -> Optional[Type[Serializer]]:
         action_name = getattr(self, 'action', None)
-        if action_name and hasattr(self.serializers, action_name):
-            serializer_mapping = getattr(self.serializers, action_name)
-            if serializer_mapping and getattr(serializer_mapping, type_, None):
-                return getattr(serializer_mapping, type_)
+        serializer_mapping = self._get_serializer_serializer_mapping_by_action(action_name)
+        if serializer_mapping and getattr(serializer_mapping, type_, None):
+            return getattr(serializer_mapping, type_)
         return self._none()
 
     def get_serializer(self, *args: Any, **kwargs: Any) -> Serializer:
@@ -89,9 +96,9 @@ class BaseModelViewSet(
     mixins.RetrieveModelMixin,
     mixins.DestroyModelMixin,
     mixins.ListModelMixin,
-    GenericViewSet,
+    BaseGenericViewSet,
 ):
     """
     Класс обеспечивает единый подход к обработке стандартных CRUD операций с дополнительной логикой
-    для сериализации данных и обработки ошибок.
+    для сериализации данных и обработки ошибок. Рекомендуется к использованию для ручек для frontend части.
     """

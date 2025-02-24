@@ -30,6 +30,7 @@ DJANGO_APPS = [
 
 OUR_DJANGO_APPS = [
     'apps.users.apps.UsersConfig',
+    'apps.telegram.apps.TelegramConfig',
 ]
 
 THIRD_PARTY_APPS = [

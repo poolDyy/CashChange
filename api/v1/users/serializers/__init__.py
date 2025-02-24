@@ -4,3 +4,9 @@ from .user_crud import (
     UserCreateRequestSerializer,
     UserUpdateResponseSerializer,
 )
+
+from .user_verification import (
+    VerificationCodeTelegramCreateModelSerializer,
+    VerificationCodeTelegramCheckRequestModelSerializer,
+    VerificationCodeTelegramCheckResponseSerializer,
+)

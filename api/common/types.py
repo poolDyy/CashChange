@@ -9,7 +9,7 @@ class SerializerTypeMapping:
     """Описывает типы сериализатора."""
 
     response: Type[Serializer]
-    request: Type[Serializer]
+    request: Type[Serializer] | None = None
 
 
 @dataclass(frozen=True)
@@ -22,3 +22,4 @@ class SerializerMapping:
     update: Optional[SerializerTypeMapping] = None
     partial_update: Optional[SerializerTypeMapping] = None
     delete: Optional[SerializerTypeMapping] = None
+    actions: dict[str:SerializerTypeMapping] = {}

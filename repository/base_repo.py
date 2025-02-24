@@ -3,9 +3,20 @@ __all__ = [
     'RepoMixin',
 ]
 
+from repository.applications.telegram import TelegramRepo
+from repository.applications.user import UsersRepo
+
 
 class RepoDjangoBase:
     """Класс содержащий property с репозиториями приложений."""
+
+    @property
+    def telegram(self) -> TelegramRepo:
+        return TelegramRepo()
+
+    @property
+    def users(self) -> UsersRepo:
+        return UsersRepo()
 
 
 def get_repository() -> RepoDjangoBase:
