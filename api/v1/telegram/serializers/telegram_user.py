@@ -4,8 +4,8 @@ from apps.telegram.models import TelegramUser
 
 __all__ = [
     'TelegramUserModelSerializer',
-    'TelegramUserVerifyCodeRequestSerializer',
-    'TelegramUserVerifyCodeResponseSerializer',
+    'TelegramUserVerificationCodeRequestSerializer',
+    'TelegramUserVerificationCodeResponseSerializer',
 ]
 
 
@@ -21,7 +21,7 @@ class TelegramUserModelSerializer(serializers.ModelSerializer):
         )
 
 
-class TelegramUserVerifyCodeRequestSerializer(serializers.Serializer):
+class TelegramUserVerificationCodeRequestSerializer(serializers.Serializer):
     """Сериализатор для получения кода верификации."""
 
     telegram_username = serializers.CharField(
@@ -30,7 +30,7 @@ class TelegramUserVerifyCodeRequestSerializer(serializers.Serializer):
     )
 
 
-class TelegramUserVerifyCodeResponseSerializer(serializers.Serializer):
+class TelegramUserVerificationCodeResponseSerializer(serializers.Serializer):
     """Сериализатор для получения кода верификации."""
 
     code = serializers.CharField(

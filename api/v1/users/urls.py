@@ -1,12 +1,11 @@
 from rest_framework import routers
 
-from api.v1.users.views import (
-    UserViewSet,
-)
+from api.v1.users.views import UserViewSet, VerificationCodeTelegramCreateViewSet
 
 app_name = 'users'
 
 router = routers.DefaultRouter()
 
 router.register(r'', UserViewSet)
+router.register(r'verification/', VerificationCodeTelegramCreateViewSet)
 urlpatterns = router.urls

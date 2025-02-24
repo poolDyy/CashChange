@@ -12,6 +12,7 @@ env = environ.Env(
 environ.Env.read_env(BASE_DIR / 'cicd' / '.env')
 
 SECRET_KEY = env('SECRET_KEY')
+TELEGRAM_BOT_SECRET_API_TOKEN = env('TELEGRAM_BOT_SECRET_API_TOKEN')
 
 DEBUG = env('DEBUG')
 

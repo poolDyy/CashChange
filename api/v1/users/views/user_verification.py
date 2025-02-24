@@ -16,6 +16,8 @@ from apps.users.models import VerificationCodeTelegram
 from apps.users.services.user_verification import VerificationCodeCreateService
 from repository import RepoMixin
 
+__all__ = ['VerificationCodeTelegramCreateViewSet']
+
 
 class VerificationCodeTelegramCreateViewSet(
     RepoMixin,

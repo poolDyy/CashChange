@@ -5,13 +5,16 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from api.common.views import BaseGenericViewSet
+from api.v1.telegram.permissions import IsTelegramBot
 from api.v1.telegram.serializers import (
     TelegramUserModelSerializer,
-    TelegramUserVerifyCodeRequestSerializer,
-    TelegramUserVerifyCodeResponseSerializer,
+    TelegramUserVerificationCodeRequestSerializer,
+    TelegramUserVerificationCodeResponseSerializer,
 )
 from apps.telegram.models import TelegramUser
 from repository import RepoMixin
+
+__all__ = ['TelegramUserViewSet']
 
 
 class TelegramUserViewSet(
@@ -23,11 +26,12 @@ class TelegramUserViewSet(
 
     serializer_class = TelegramUserModelSerializer
     queryset = TelegramUser.objects.all()
+    permission_classes = [IsTelegramBot]
 
-    @action(detail=False, methods=['get'])
-    def verify_code(self, request: Request) -> Response:
+    @action(detail=False, methods=['get'], url_path='verification-code')
+    def verification_code(self, request: Request) -> Response:
         """Получение кода верификации."""
-        serializer = TelegramUserVerifyCodeRequestSerializer(
+        serializer = TelegramUserVerificationCodeRequestSerializer(
             data=request.data,
             context=self.get_serializer_context(),
         )
@@ -37,7 +41,7 @@ class TelegramUserViewSet(
             telegram_username=serializer.data.get('telegram_username'),
         )
 
-        response_serializer = TelegramUserVerifyCodeResponseSerializer(
+        response_serializer = TelegramUserVerificationCodeResponseSerializer(
             data={'code': getattr(verify_code_telegram, 'code')},
             context=self.get_serializer_context(),
         )

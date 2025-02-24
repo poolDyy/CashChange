@@ -229,3 +229,4 @@ pyrightconfig.json
 
 .idea
 .ruff_cache
+/cicd/.telegram-env
