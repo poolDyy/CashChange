@@ -6,6 +6,7 @@ app_name = 'users'
 
 router = routers.DefaultRouter()
 
-router.register(r'', UserViewSet)
-router.register(r'verification/', VerificationCodeTelegramCreateViewSet)
+router.register(r'user', UserViewSet)
+
+router.register(r'verification', VerificationCodeTelegramCreateViewSet)
 urlpatterns = router.urls

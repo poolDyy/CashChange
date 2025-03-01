@@ -21,7 +21,7 @@ class VerificationCodeTelegramRepo(RepoModelDjango[VerificationCodeTelegram]):
             telegram_username=telegram_username,
         ).exists()
 
-    def get_first_by_telegram_username(self, *, telegram_username: str) -> VerificationCodeTelegram:
+    def get_first_by_telegram_username(self, *, telegram_username: str) -> VerificationCodeTelegram | None:
         return self.model_cls.objects.filter(
             telegram_username=telegram_username,
         ).first()

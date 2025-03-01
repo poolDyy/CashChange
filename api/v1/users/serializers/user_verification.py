@@ -1,10 +1,11 @@
 from rest_framework import serializers
 
+from api.common.validatiors import validate_telegram_username
 from apps.users.models import VerificationCodeTelegram
 
 __all__ = [
     'VerificationCodeTelegramCreateModelSerializer',
-    'VerificationCodeTelegramCheckRequestModelSerializer',
+    'VerificationCodeTelegramCheckRequestSerializer',
     'VerificationCodeTelegramCheckResponseSerializer',
 ]
 
@@ -17,22 +18,26 @@ class VerificationCodeTelegramCreateModelSerializer(serializers.ModelSerializer)
     class Meta:
         model = VerificationCodeTelegram
         fields = ('telegram_username',)
+        extra_kwargs = {'telegram_username': {'validators': [validate_telegram_username]}}
 
 
-class VerificationCodeTelegramCheckRequestModelSerializer(serializers.ModelSerializer):
+class VerificationCodeTelegramCheckRequestSerializer(serializers.Serializer):
     """Сериализатор для проверки кода верификации."""
 
-    class Meta:
-        model = VerificationCodeTelegram
-        fields = (
-            'telegram_username',
-            'code',
-        )
+    telegram_username = serializers.CharField(
+        max_length=255,
+        validators=[validate_telegram_username],
+    )
+    code = serializers.CharField(
+        max_length=6,
+        min_length=6,
+    )
 
     def validate(self, attrs: dict) -> dict:
         code = attrs.get('code')
         telegram_username = attrs.get('telegram_username')
         service = VerificationService()
+
         if service.verify_telegram_code(code=code, telegram_username=telegram_username):
             return attrs
 

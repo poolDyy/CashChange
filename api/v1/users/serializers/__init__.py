@@ -7,6 +7,6 @@ from .user_crud import (
 
 from .user_verification import (
     VerificationCodeTelegramCreateModelSerializer,
-    VerificationCodeTelegramCheckRequestModelSerializer,
+    VerificationCodeTelegramCheckRequestSerializer,
     VerificationCodeTelegramCheckResponseSerializer,
 )

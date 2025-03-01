@@ -8,8 +8,7 @@ from api.common.views import BaseGenericViewSet
 from api.v1.telegram.permissions import IsTelegramBot
 from api.v1.telegram.serializers import (
     TelegramUserModelSerializer,
-    TelegramUserVerificationCodeRequestSerializer,
-    TelegramUserVerificationCodeResponseSerializer,
+    TelegramUserVerificationCodeSerializer,
 )
 from apps.telegram.models import TelegramUser
 from repository import RepoMixin
@@ -28,10 +27,10 @@ class TelegramUserViewSet(
     queryset = TelegramUser.objects.all()
     permission_classes = [IsTelegramBot]
 
-    @action(detail=False, methods=['get'], url_path='verification-code')
+    @action(detail=False, methods=['post'], url_path='verification-code')
     def verification_code(self, request: Request) -> Response:
         """Получение кода верификации."""
-        serializer = TelegramUserVerificationCodeRequestSerializer(
+        serializer = TelegramUserVerificationCodeSerializer(
             data=request.data,
             context=self.get_serializer_context(),
         )
@@ -41,13 +40,13 @@ class TelegramUserViewSet(
             telegram_username=serializer.data.get('telegram_username'),
         )
 
-        response_serializer = TelegramUserVerificationCodeResponseSerializer(
-            data={'code': getattr(verify_code_telegram, 'code')},
-            context=self.get_serializer_context(),
-        )
-        response_serializer.is_valid(raise_exception=True)
+        if verify_code_telegram is None:
+            return Response(
+                {'code': 'По Вашему username не найден код верификации'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         return Response(
-            data=response_serializer.data,
+            data={'code': verify_code_telegram.code},
             status=status.HTTP_200_OK,
         )

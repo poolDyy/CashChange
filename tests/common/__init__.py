@@ -1,1 +1,1 @@
-from .drf_api_client import ApiTestClient
+from .drf_api_client import ApiTestClient, ApiTestClientAuth, ApiTestClientTelegram

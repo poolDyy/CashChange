@@ -11,13 +11,11 @@ class VerificationCodeTelegram(TimeStampedModel):
     code = models.CharField(
         verbose_name='Код верификации',
         max_length=6,
-        editable=False,
     )
 
     telegram_username = models.CharField(
         verbose_name='Никнейм в Telegram',
         max_length=255,
-        editable=False,
     )
 
     class Meta:
@@ -28,5 +26,9 @@ class VerificationCodeTelegram(TimeStampedModel):
             models.UniqueConstraint(
                 fields=['code', 'telegram_username'],
                 name='unique_code_per_telegram_username',
-            )
+            ),
+            models.CheckConstraint(
+                check=models.Q(telegram_username__startswith='@'),
+                name='vct_telegram_username_contains_at',
+            ),
         ]

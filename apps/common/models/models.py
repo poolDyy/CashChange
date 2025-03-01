@@ -16,12 +16,10 @@ class TimeStampedModel(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Дата создания',
-        editable=False,
     )
     updated_at = models.DateTimeField(
         auto_now=True,
         verbose_name='Дата обновления',
-        editable=False,
     )
 
     class Meta:

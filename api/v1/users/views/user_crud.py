@@ -44,7 +44,7 @@ class UserViewSet(BaseModelViewSet):
         ),
     )
 
-    permission_classes = {
+    action_permissions = {
         'create': [IsUnauthenticated],
         'list': [AllowAny],
         'retrieve': [AllowAny],
@@ -55,6 +55,6 @@ class UserViewSet(BaseModelViewSet):
 
     def get_permissions(self) -> list[type[BasePermission]]:
         """Определить разрешения для каждого метода."""
-        if self.action in self.permission_classes:
-            return [permission() for permission in self.permission_classes[self.action]]
+        if self.action in self.action_permissions:
+            return [permission() for permission in self.action_permissions[self.action]]
         return super().get_permissions()

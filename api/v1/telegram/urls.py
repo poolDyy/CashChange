@@ -6,5 +6,5 @@ app_name = 'telegram'
 
 router = routers.DefaultRouter()
 
-router.register(r'user/', TelegramUserViewSet)
+router.register(r'user', TelegramUserViewSet)
 urlpatterns = router.urls

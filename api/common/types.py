@@ -1,4 +1,4 @@
-from typing import Optional, Type
+from typing import Type
 
 from attr import dataclass
 from rest_framework.serializers import Serializer
@@ -16,10 +16,10 @@ class SerializerTypeMapping:
 class SerializerMapping:
     """Описывает структуру атрибута serializer в SerializerViewSetMixin."""
 
-    list: Optional[SerializerTypeMapping] = None
-    retrieve: Optional[SerializerTypeMapping] = None
-    create: Optional[SerializerTypeMapping] = None
-    update: Optional[SerializerTypeMapping] = None
-    partial_update: Optional[SerializerTypeMapping] = None
-    delete: Optional[SerializerTypeMapping] = None
+    list: SerializerTypeMapping | None = None
+    retrieve: SerializerTypeMapping | None = None
+    create: SerializerTypeMapping | None = None
+    update: SerializerTypeMapping | None = None
+    partial_update: SerializerTypeMapping | None = None
+    delete: SerializerTypeMapping | None = None
     actions: dict[str:SerializerTypeMapping] = {}

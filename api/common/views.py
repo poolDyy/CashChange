@@ -1,4 +1,4 @@
-from typing import Any, Optional, Type
+from typing import Any, Type
 
 from django.db.models import Model
 from rest_framework import mixins, status
@@ -67,13 +67,13 @@ class SerializerViewSetMixin:
     def _none(*args: Any, **kwargs: Any) -> None:
         return None
 
-    def _get_serializer_serializer_mapping_by_action(self, action_name: str) -> Optional[SerializerTypeMapping]:
+    def _get_serializer_serializer_mapping_by_action(self, action_name: str) -> SerializerTypeMapping | None:
         if hasattr(self.serializers, action_name):
             return getattr(self.serializers, action_name)
         else:
             return self.serializers.actions.get(action_name)
 
-    def get_serializer_class(self, *, type_: str) -> Optional[Type[Serializer]]:
+    def get_serializer_class(self, *, type_: str) -> Type[Serializer] | None:
         action_name = getattr(self, 'action', None)
         serializer_mapping = self._get_serializer_serializer_mapping_by_action(action_name)
         if serializer_mapping and getattr(serializer_mapping, type_, None):

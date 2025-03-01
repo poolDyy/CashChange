@@ -1,4 +1,4 @@
-from rest_framework import serializers, status
+from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -8,12 +8,11 @@ from api.common.permissions import IsAuthenticatedAndNotVerified
 from api.common.types import SerializerMapping, SerializerTypeMapping
 from api.common.views import BaseGenericViewSet, ExCreateModelMixin, SerializerViewSetMixin
 from api.v1.users.serializers import (
-    VerificationCodeTelegramCheckRequestModelSerializer,
+    VerificationCodeTelegramCheckRequestSerializer,
     VerificationCodeTelegramCheckResponseSerializer,
     VerificationCodeTelegramCreateModelSerializer,
 )
 from apps.users.models import VerificationCodeTelegram
-from apps.users.services.user_verification import VerificationCodeCreateService
 from repository import RepoMixin
 
 __all__ = ['VerificationCodeTelegramCreateViewSet']
@@ -21,8 +20,8 @@ __all__ = ['VerificationCodeTelegramCreateViewSet']
 
 class VerificationCodeTelegramCreateViewSet(
     RepoMixin,
-    ExCreateModelMixin,
     SerializerViewSetMixin,
+    ExCreateModelMixin,
     BaseGenericViewSet,
 ):
     """Создание кода верификации."""
@@ -36,7 +35,7 @@ class VerificationCodeTelegramCreateViewSet(
         ),
         actions={
             'verify': SerializerTypeMapping(
-                request=VerificationCodeTelegramCheckRequestModelSerializer,
+                request=VerificationCodeTelegramCheckRequestSerializer,
                 response=VerificationCodeTelegramCheckResponseSerializer,
             )
         },
@@ -48,7 +47,7 @@ class VerificationCodeTelegramCreateViewSet(
         self,
         serializer: VerificationCodeTelegramCreateModelSerializer,
     ) -> VerificationCodeTelegram:
-        return VerificationCodeCreateService.create_verification_code(
+        return self.repo.users.verification_code_telegram.create(
             telegram_username=serializer.data.get('telegram_username')
         )
 
@@ -59,21 +58,15 @@ class VerificationCodeTelegramCreateViewSet(
         serializer.is_valid(raise_exception=True)
 
         telegram_username = serializer.data.get('telegram_username')
-        try:
-            self.repo.users.user.add_telegram_user_to_user(
-                telegram_username=telegram_username,
-                user=request.user,
-            )
-        except ValueError:
-            raise serializers.ValidationError(f'Не найден пользователь telegram с именем: {telegram_username}')
-        response_serializer = self.get_serializer(
+
+        self.repo.users.user.add_telegram_user_to_user(
+            telegram_username=telegram_username,
+            user=request.user,
+        )
+        return Response(
             data={
                 'is_success': True,
                 'message': 'Верификация пройдена успешно',
             },
-            type_=SerializerType.RESPONSE,
-        )
-        return Response(
-            response_serializer.data,
             status=status.HTTP_200_OK,
         )
