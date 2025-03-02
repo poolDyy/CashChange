@@ -28,8 +28,8 @@ class UserManager(BaseUserManager):
     def create_superuser(
         self,
         username: str,
-        name: str,
         password: str,
+        name: str = 'SuperUser',
     ) -> 'User':
         user = self.create_user(
             username,

@@ -14,6 +14,12 @@ class UserModelRepo(RepoModelDjango[User]):
     def create(self, *, username: str, name: str, password: str) -> User:
         return User.objects.create_user(username=username, name=name, password=password)
 
+    def is_verified_by_telegram_username(self, *, telegram_username: str) -> bool:
+        user = self.model_cls.objects.filter(telegram_user__telegram_username=telegram_username).first()
+        if user is None:
+            return False
+        return user.is_verified
+
     @classmethod
     def add_telegram_user_to_user(cls, *, telegram_username: str, user: User) -> None:
         from repository import get_repository

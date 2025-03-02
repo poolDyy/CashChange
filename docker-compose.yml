@@ -49,3 +49,19 @@ services:
       - redis
     command: /bin/sh -c "./manage.py migrate && ./manage.py runserver 0.0.0.0:8000"
     # command:  /bin/sh -c "./manage.py migrate &&  uwsgi --master --http :8000 --module src.wsgi"
+
+  telegram:
+    container_name: telegram
+    build:
+      context: ./telegram
+      dockerfile: ../cicd/docker/telegram/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8443:8443"
+    env_file:
+      - telegram/.env
+    volumes:
+      - ./telegram:/srv/
+    networks:
+      - cc_network
+    command: /bin/sh -c "python bot.py"

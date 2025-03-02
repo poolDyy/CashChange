@@ -230,3 +230,4 @@ pyrightconfig.json
 .idea
 .ruff_cache
 /telegram/.env
+/telegram/logs/
