@@ -181,7 +181,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-cicd/.env
+backend/.env
 
 # Spyder project settings
 .spyderproject
@@ -229,4 +229,4 @@ pyrightconfig.json
 
 .idea
 .ruff_cache
-/cicd/.telegram-env
+/telegram/.env

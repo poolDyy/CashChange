@@ -9,7 +9,7 @@ env = environ.Env(
     DEBUG=(bool, False),
 )
 
-environ.Env.read_env(BASE_DIR / 'cicd' / '.env')
+environ.Env.read_env(BASE_DIR / '.env')
 
 SECRET_KEY = env('SECRET_KEY')
 TELEGRAM_BOT_SECRET_API_TOKEN = env('TELEGRAM_BOT_SECRET_API_TOKEN')

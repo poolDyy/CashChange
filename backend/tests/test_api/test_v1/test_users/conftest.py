@@ -1,9 +1,7 @@
 import pytest
-from django.contrib.auth import get_user_model
 
+from apps.users.models import User
 from apps.users.services.user_verification import VerificationCodeCreateService
-
-User = get_user_model()
 
 
 @pytest.fixture

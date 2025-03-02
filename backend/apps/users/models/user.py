@@ -1,10 +1,9 @@
+from apps.common.models import TimeStampedModel
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from django.db.models import Q
-
-from apps.common.models import TimeStampedModel
 
 __all__ = ['User']
 
@@ -94,7 +93,7 @@ class User(
         ordering = ['-created_at']
         constraints = [
             models.CheckConstraint(
-                check=Q(is_verify=False) | Q(telegram_user__isnull=False),
+                condition=Q(is_verify=False) | Q(telegram_user__isnull=False),
                 name='is_verify_requires_telegram_user',
             )
         ]

@@ -1,6 +1,5 @@
-from django.db import models
-
 from apps.common.models import TimeStampedModel
+from django.db import models
 
 __all__ = ['TelegramUser']
 
@@ -26,7 +25,7 @@ class TelegramUser(TimeStampedModel):
         ordering = ['-created_at']
         constraints = [
             models.CheckConstraint(
-                check=models.Q(telegram_username__startswith='@'),
+                condition=models.Q(telegram_username__startswith='@'),
                 name='tu_telegram_username_contains_at',
             ),
         ]

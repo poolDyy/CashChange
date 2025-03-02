@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import QuerySet
 
 from apps.common.models.choices import StatusChoices
 
@@ -9,10 +10,14 @@ __all__ = [
 
 
 class PublishedManager(models.Manager):
-    def get_queryset(self):
+    """Менеджер для работы с опубликованными записями."""
+
+    def get_queryset(self) -> QuerySet:
         return super().get_queryset().filter(status=StatusChoices.PUBLISHED)
 
 
 class ArchivedManager(models.Manager):
-    def get_queryset(self):
+    """Менеджер для работы c записями в архиве."""
+
+    def get_queryset(self) -> QuerySet:
         return super().get_queryset().filter(status=StatusChoices.ARCHIVED)

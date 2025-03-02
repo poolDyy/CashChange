@@ -1,10 +1,10 @@
+from repository.applications.telegram import TelegramRepo
+from repository.applications.user import UsersRepo
+
 __all__ = [
     'get_repository',
     'RepoMixin',
 ]
-
-from repository.applications.telegram import TelegramRepo
-from repository.applications.user import UsersRepo
 
 
 class RepoDjangoBase:

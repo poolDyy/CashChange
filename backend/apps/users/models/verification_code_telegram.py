@@ -1,6 +1,5 @@
-from django.db import models
-
 from apps.common.models import TimeStampedModel
+from django.db import models
 
 __all__ = ['VerificationCodeTelegram']
 
@@ -28,7 +27,7 @@ class VerificationCodeTelegram(TimeStampedModel):
                 name='unique_code_per_telegram_username',
             ),
             models.CheckConstraint(
-                check=models.Q(telegram_username__startswith='@'),
+                condition=models.Q(telegram_username__startswith='@'),
                 name='vct_telegram_username_contains_at',
             ),
         ]

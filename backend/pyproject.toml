@@ -66,7 +66,6 @@ exclude = [
     ".ruff_cache",
     ".svn",
     ".tox",
-    ".venv",
     "__pypackages__",
     "_build",
     "buck-out",
@@ -75,9 +74,7 @@ exclude = [
     "frontend/node_modules",
     "venv",
     ".env",
-    ".env_legacy",
     "__init__.py",
-    "expert/settings*.py",
 ]
 
 lint.dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
@@ -97,3 +94,4 @@ line-ending = "auto"
 
 [tool.ruff.lint.extend-per-file-ignores]
 "tests/*.py" = ["S101", "S106", "D", "ANN",]
+"**/migrations/*.py" = ["S101", "S106", "D", "ANN",]

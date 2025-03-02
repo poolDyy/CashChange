@@ -33,15 +33,15 @@ services:
   backend:
     container_name: backend
     build:
-      context: .
-      dockerfile: ./cicd/docker/backend/Dockerfile
+      context: ./backend
+      dockerfile: ../cicd/docker/backend/Dockerfile
     restart: unless-stopped
     ports:
       - "8000:8000"
     env_file:
-      - cicd/.env
+      - backend/.env
     volumes:
-      - ./:/srv/
+      - ./backend:/srv/
     networks:
       - cc_network
     depends_on:
