@@ -2,20 +2,20 @@ from utils.client.base import BackendClientMixin, ResponseData
 from utils.client.statuses import HTTP_200_OK
 from utils.endpoints.base import EndpointMixin
 
-__all__ = ['VerifyCodeService']
+__all__ = ['IsVerifiedService']
 
 
-class VerifyCodeService(EndpointMixin, BackendClientMixin):
-    """Сервис по созданию телеграм пользователя."""
+class IsVerifiedService(EndpointMixin, BackendClientMixin):
+    """Сервис по получению статуса верификации пользователя."""
 
     SUCCESS_STATUS = HTTP_200_OK
 
     def __init__(self, username: str) -> None:
         self.username = username
 
-    async def get_verify_code(self) -> ResponseData:
-        url = self.endpoints.verify_code.url
-        dto = self.endpoints.verify_code.dto
+    async def is_verified(self) -> ResponseData:
+        url = self.endpoints.is_verified.url
+        dto = self.endpoints.is_verified.dto
 
         dto_instance = dto(telegram_username=self.username)
 

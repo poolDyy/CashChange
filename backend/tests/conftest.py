@@ -1,8 +1,7 @@
 import pytest
-from mixer.backend.django import mixer as _mixer
-
 from apps.telegram.models import TelegramUser
 from apps.users.models import User
+from mixer.backend.django import mixer as _mixer
 
 from .common import ApiTestClient, ApiTestClientAuth, ApiTestClientTelegram
 
@@ -33,7 +32,7 @@ def auth_user(mixer):
 
 @pytest.fixture
 def telegram_user(mixer):
-    return mixer.blend(TelegramUser, telegram_username='@testuser', telegram_id='1111')
+    return mixer.blend(TelegramUser, telegram_username='testuser', telegram_id='1111')
 
 
 @pytest.fixture

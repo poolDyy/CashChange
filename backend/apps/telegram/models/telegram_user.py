@@ -25,7 +25,7 @@ class TelegramUser(TimeStampedModel):
         ordering = ['-created_at']
         constraints = [
             models.CheckConstraint(
-                condition=models.Q(telegram_username__startswith='@'),
+                condition=~models.Q(telegram_username__contains='@'),
                 name='tu_telegram_username_contains_at',
             ),
         ]

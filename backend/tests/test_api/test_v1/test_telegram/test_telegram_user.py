@@ -1,7 +1,6 @@
 import pytest
-from rest_framework import status
-
 from apps.telegram.models import TelegramUser
+from rest_framework import status
 
 
 @pytest.mark.django_db
@@ -45,7 +44,7 @@ class TestTelegramUserVerificationCode:
 
     def test_create_telegram_user_invalid_username(self, telegram_api_test_client, telegram_user_data):
         """Запрос с некорректным username должен возвращать 400 Bad Request."""
-        telegram_user_data['telegram_username'] = 'invalid username'
+        telegram_user_data['telegram_username'] = '@invalid username'
 
         telegram_api_test_client.post(
             self.BASE_URL,
@@ -85,7 +84,7 @@ class TestTelegramUserVerificationCode:
 
     def test_get_verification_code_unauthorized(self, api_test_client):
         """Запрос без Telegram Bot Token должен возвращать 401 Unauthorized."""
-        data = {'telegram_username': '@testuser'}
+        data = {'telegram_username': 'testuser'}
 
         api_test_client.post(
             self.VERIFICATION_CODE_URL,

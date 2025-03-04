@@ -1,4 +1,5 @@
 from utils.client.base import BackendClientMixin, ResponseData
+from utils.client.statuses import HTTP_201_CREATED
 from utils.endpoints.base import EndpointMixin
 
 __all__ = ['CreateTelegramUserService']
@@ -6,6 +7,8 @@ __all__ = ['CreateTelegramUserService']
 
 class CreateTelegramUserService(EndpointMixin, BackendClientMixin):
     """Сервис по созданию телеграм пользователя."""
+
+    SUCCESS_STATUS = HTTP_201_CREATED
 
     def __init__(self, username: str, telegram_id: str) -> None:
         self.username = username

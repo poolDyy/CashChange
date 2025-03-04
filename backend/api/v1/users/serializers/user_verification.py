@@ -1,15 +1,12 @@
-from rest_framework import serializers
-
 from api.common.validatiors import validate_telegram_username
 from apps.users.models import VerificationCodeTelegram
+from rest_framework import serializers
 
 __all__ = [
     'VerificationCodeTelegramCreateModelSerializer',
     'VerificationCodeTelegramCheckRequestSerializer',
     'VerificationCodeTelegramCheckResponseSerializer',
 ]
-
-from apps.users.services.user_verification import VerificationService
 
 
 class VerificationCodeTelegramCreateModelSerializer(serializers.ModelSerializer):
@@ -32,16 +29,6 @@ class VerificationCodeTelegramCheckRequestSerializer(serializers.Serializer):
         max_length=6,
         min_length=6,
     )
-
-    def validate(self, attrs: dict) -> dict:
-        code = attrs.get('code')
-        telegram_username = attrs.get('telegram_username')
-        service = VerificationService()
-
-        if service.verify_telegram_code(code=code, telegram_username=telegram_username):
-            return attrs
-
-        raise serializers.ValidationError(',\n'.join(service.messages))
 
 
 class VerificationCodeTelegramCheckResponseSerializer(serializers.Serializer):

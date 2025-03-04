@@ -1,23 +1,23 @@
-from rest_framework import status
-from rest_framework.decorators import action
-from rest_framework.mixins import CreateModelMixin
-from rest_framework.request import Request
-from rest_framework.response import Response
-
 from api.common.views import BaseGenericViewSet
 from api.v1.telegram.permissions import IsTelegramBot
 from api.v1.telegram.serializers import (
     TelegramUserModelSerializer,
     TelegramUserVerificationCodeSerializer,
 )
+from api.v1.telegram.serializers.telegram_user import TelegramUserIsVerifiedSerializer
 from apps.telegram.models import TelegramUser
-from repository import RepoMixin
+from rest_framework import status
+from rest_framework.decorators import action
+from rest_framework.mixins import CreateModelMixin
+from rest_framework.request import Request
+from rest_framework.response import Response
 
 __all__ = ['TelegramUserViewSet']
 
+from apps.users.models import VerificationCodeTelegram
+
 
 class TelegramUserViewSet(
-    RepoMixin,
     CreateModelMixin,
     BaseGenericViewSet,
 ):
@@ -36,17 +36,19 @@ class TelegramUserViewSet(
         )
         serializer.is_valid(raise_exception=True)
 
-        verify_code_telegram = self.repo.users.verification_code_telegram.get_first_by_telegram_username(
+        verify_code_telegram = VerificationCodeTelegram.objects.filter(
             telegram_username=serializer.data.get('telegram_username'),
-        )
-
-        if verify_code_telegram is None:
-            return Response(
-                {'code': 'По Вашему username не найден код верификации'},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        ).first()
 
         return Response(
             data={'code': verify_code_telegram.code},
             status=status.HTTP_200_OK,
         )
+
+    @action(detail=False, methods=['post'], url_path='is-verified')
+    def is_verified(self, request: Request) -> Response:
+        serializer = TelegramUserIsVerifiedSerializer(
+            data=request.data,
+            context=self.get_serializer_context(),
+        )
+        return Response({'is_verified': serializer.is_valid()}, status=status.HTTP_200_OK)

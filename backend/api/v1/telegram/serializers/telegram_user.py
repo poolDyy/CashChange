@@ -1,6 +1,5 @@
-from api.common.validatiors import validate_telegram_username
+from api.common.validatiors import validate_telegram_username, validate_telegram_username_is_not_verified
 from apps.telegram.models import TelegramUser
-from repository import RepoMixin
 from rest_framework import serializers
 
 __all__ = [
@@ -23,7 +22,6 @@ class TelegramUserModelSerializer(serializers.ModelSerializer):
 
 
 class TelegramUserVerificationCodeSerializer(
-    RepoMixin,
     serializers.Serializer,
 ):
     """Сериализатор для получения кода верификации."""
@@ -31,11 +29,17 @@ class TelegramUserVerificationCodeSerializer(
     telegram_username = serializers.CharField(
         required=True,
         max_length=255,
-        validators=[validate_telegram_username],
+        validators=[validate_telegram_username, validate_telegram_username_is_not_verified],
     )
 
-    def validate(self, attrs: dict) -> dict:
-        telegram_username = attrs['telegram_username']
-        if self.repo.users.user.is_verified_by_telegram_username(telegram_username=telegram_username):
-            raise serializers.ValidationError('Пользователь уже верифицирован.')
-        return attrs
+
+class TelegramUserIsVerifiedSerializer(
+    serializers.Serializer,
+):
+    """Сериализатор для проверки верификации пользователя."""
+
+    telegram_username = serializers.CharField(
+        required=True,
+        max_length=255,
+        validators=[validate_telegram_username, validate_telegram_username_is_not_verified],
+    )

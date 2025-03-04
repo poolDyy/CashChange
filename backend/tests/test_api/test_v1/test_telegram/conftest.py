@@ -1,5 +1,4 @@
 import pytest
-
 from apps.users.services.user_verification import VerificationCodeCreateService
 
 
@@ -16,5 +15,5 @@ def telegram_user_data():
     """Тестовые данные для Telegram пользователя."""
     return {
         'telegram_id': '123456789',
-        'telegram_username': '@testuser',
+        'telegram_username': 'testuser',
     }

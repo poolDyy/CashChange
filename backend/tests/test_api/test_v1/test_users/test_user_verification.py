@@ -1,7 +1,6 @@
 import pytest
-from rest_framework import status
-
 from apps.users.models import VerificationCodeTelegram
+from rest_framework import status
 
 
 @pytest.mark.django_db
@@ -14,28 +13,28 @@ class TestUserVerification:
         auth_api_client_unverified,
     ):
         """Авторизованный, но НЕверифицированный пользователь должен создать код (201 Created)."""
-        data = {'telegram_username': '@test_telegram_user'}
+        data = {'telegram_username': 'test_telegram_user'}
         auth_api_client_unverified.post(self.BASE_URL, data=data)
 
-        assert VerificationCodeTelegram.objects.filter(telegram_username='@test_telegram_user').exists()
+        assert VerificationCodeTelegram.objects.filter(telegram_username='test_telegram_user').exists()
 
     def test_create_verification_code_incorrect_telegram_username(
         self,
         auth_api_client_unverified,
     ):
-        """Авторизованный, но НЕверифицированный пользователь должен создать код (201 Created)."""
-        data = {'telegram_username': 'test_telegram_user'}
+        """Авторизованный, но неправильный юзернейм (400 BAD REQUEST)."""
+        data = {'telegram_username': '@test_telegram_user'}
         auth_api_client_unverified.post(self.BASE_URL, data=data, expected_status=status.HTTP_400_BAD_REQUEST)
 
     def test_create_verification_code_forbidden(self, auth_api_client_verified):
         """Верифицированный пользователь НЕ должен создавать код (403 Forbidden)."""
-        data = {'telegram_username': '@test_telegram_user'}
+        data = {'telegram_username': 'test_telegram_user'}
 
         auth_api_client_verified.post(self.BASE_URL, data=data, expected_status=status.HTTP_403_FORBIDDEN)
 
     def test_create_verification_code_unauthorized(self, api_test_client):
         """Неавторизованный пользователь НЕ должен создавать код (401 Unauthorized)."""
-        data = {'telegram_username': '@test_telegram_user'}
+        data = {'telegram_username': 'test_telegram_user'}
 
         api_test_client.post(self.BASE_URL, data=data, expected_status=status.HTTP_401_UNAUTHORIZED)
 
@@ -72,18 +71,19 @@ class TestUserVerification:
             data=data,
             expected_status=status.HTTP_400_BAD_REQUEST,
         )
+        print(response)
         assert 'Неверный код верификации' in response['non_field_errors']
 
     def test_verify_unknown_telegram_user(self, auth_api_client_unverified, verification_code):
         """Ошибка верификации: не найден пользователь Telegram (400 Bad Request)."""
         data = {
-            'telegram_username': '@unknown_user',
+            'telegram_username': 'unknown_user',
             'code': verification_code.code,
         }
         response = auth_api_client_unverified.post(
             self.VERIFY_URL, data=data, expected_status=status.HTTP_400_BAD_REQUEST
         )
-
+        print(response)
         assert 'Не найден пользователь Telegram с таким именем.' in response['non_field_errors'][0]
 
     def test_verify_already_verified(self, auth_api_client_verified, verification_code):

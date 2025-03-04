@@ -3,9 +3,10 @@ from telegram import KeyboardButton
 __all__ = ['MainKeyBoard']
 
 from handlers.keyboards.reply.base import BaseKeyBoard
+from utils.endpoints.base import EndpointMixin
 
 
-class MainKeyBoard(BaseKeyBoard):
+class MainKeyBoard(EndpointMixin, BaseKeyBoard):
     """Клавиатура основная."""
 
     KEYS = [
@@ -20,5 +21,5 @@ class MainKeyBoard(BaseKeyBoard):
 
     def _is_user_verified(self) -> bool:
         """Проверять верифицирован ли пользователь."""
-        # TODO необоходимо проверять в кеше или отправлять запрос в бекенд
-        return False
+
+        return self.endpoints

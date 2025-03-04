@@ -1,8 +1,3 @@
-from rest_framework import status
-from rest_framework.decorators import action
-from rest_framework.request import Request
-from rest_framework.response import Response
-
 from api.common.enums import SerializerType
 from api.common.permissions import IsAuthenticatedAndNotVerified
 from api.common.types import SerializerMapping, SerializerTypeMapping
@@ -13,13 +8,15 @@ from api.v1.users.serializers import (
     VerificationCodeTelegramCreateModelSerializer,
 )
 from apps.users.models import VerificationCodeTelegram
-from repository import RepoMixin
-
-__all__ = ['VerificationCodeTelegramCreateViewSet']
+from apps.users.services.user_verification import VerificationCodeCreateService, VerificationService
+from rest_framework import status
+from rest_framework.decorators import action
+from rest_framework.exceptions import ValidationError
+from rest_framework.request import Request
+from rest_framework.response import Response
 
 
 class VerificationCodeTelegramCreateViewSet(
-    RepoMixin,
     SerializerViewSetMixin,
     ExCreateModelMixin,
     BaseGenericViewSet,
@@ -47,7 +44,7 @@ class VerificationCodeTelegramCreateViewSet(
         self,
         serializer: VerificationCodeTelegramCreateModelSerializer,
     ) -> VerificationCodeTelegram:
-        return self.repo.users.verification_code_telegram.create(
+        return VerificationCodeCreateService.create_verification_code(
             telegram_username=serializer.data.get('telegram_username')
         )
 
@@ -58,15 +55,18 @@ class VerificationCodeTelegramCreateViewSet(
         serializer.is_valid(raise_exception=True)
 
         telegram_username = serializer.data.get('telegram_username')
+        code = serializer.data.get('code')
 
-        self.repo.users.user.add_telegram_user_to_user(
-            telegram_username=telegram_username,
-            user=request.user,
-        )
-        return Response(
-            data={
-                'is_success': True,
-                'message': 'Верификация пройдена успешно',
-            },
-            status=status.HTTP_200_OK,
-        )
+        service = VerificationService()
+        service.verify(telegram_username=telegram_username, code=code, user=request.user)
+
+        if service.is_valid:
+            return Response(
+                data={
+                    'is_success': True,
+                    'message': 'Верификация пройдена успешно',
+                },
+                status=status.HTTP_200_OK,
+            )
+
+        raise ValidationError({'non_field_errors': service.errors})

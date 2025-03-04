@@ -27,7 +27,7 @@ class VerificationCodeTelegram(TimeStampedModel):
                 name='unique_code_per_telegram_username',
             ),
             models.CheckConstraint(
-                condition=models.Q(telegram_username__startswith='@'),
+                condition=~models.Q(telegram_username__contains='@'),
                 name='vct_telegram_username_contains_at',
             ),
         ]

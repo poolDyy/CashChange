@@ -1,4 +1,5 @@
 from utils.endpoints.endpoints.create_user import CreateUserEndpoint
+from utils.endpoints.endpoints.is_verified import IsVerifiedEndpoint
 from utils.endpoints.endpoints.verify_code import VerifyCodeEndpoint
 
 __all__ = [
@@ -17,6 +18,10 @@ class Endpoints:
     @property
     def verify_code(self) -> VerifyCodeEndpoint:
         return VerifyCodeEndpoint()
+
+    @property
+    def is_verified(self) -> IsVerifiedEndpoint:
+        return IsVerifiedEndpoint()
 
 
 class EndpointMixin:
