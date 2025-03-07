@@ -1,1 +1,1 @@
-from .base import BackendClientMixin, get_backend_client
+from .base import client

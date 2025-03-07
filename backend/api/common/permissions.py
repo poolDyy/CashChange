@@ -21,4 +21,4 @@ class IsAuthenticatedAndNotVerified(BasePermission):
     """Разрешение для авторизованных, но не верифицированных пользователей."""
 
     def has_permission(self, request: Request, view: Type[ViewSet]) -> bool:
-        return bool(request.user.is_authenticated and not request.user.is_verify)
+        return bool(request.user.is_authenticated and not request.user.is_verified)

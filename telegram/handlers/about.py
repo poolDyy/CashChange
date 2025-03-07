@@ -1,5 +1,4 @@
 from handlers.base import BaseHandler
-
 from telegram import Update
 from telegram.ext import ContextTypes, MessageHandler, filters
 
@@ -11,7 +10,7 @@ from handlers.keyboards.reply.main import MainKeyBoard
 class AboutHandler(BaseHandler):
     """Обработчик сообщения Обо мне."""
 
-    async def handle(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    async def _handle(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         """Обрабатывает сообщение Обо мне."""
         await update.message.reply_text(
             'Вот что я могу сделать: ...',

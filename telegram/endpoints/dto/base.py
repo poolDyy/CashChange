@@ -16,4 +16,6 @@ class DataBaseDTO(ABC):
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> Self:
-        return cls(**data)
+        fields = {field.name for field in dataclasses.fields(cls)}
+        filtered_data = {key: value for key, value in data.items() if key in fields}
+        return cls(**filtered_data)

@@ -5,13 +5,23 @@ from telegram.ext import CommandHandler, ContextTypes, MessageHandler
 
 __all__ = ['BaseHandler']
 
+from utils.logger import logger
+
 
 class BaseHandler(ABC):
     """Базовый абстрактный класс для всех обработчиков."""
 
-    @abstractmethod
     async def handle(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-        """Основной метод для обработки событий."""
+        """Основной метод для обработки событий с обработкой ошибок."""
+        try:
+            await self._handle(update, context)
+        except Exception as e:
+            logger.error(f'Ошибка в обработчике {self.__class__.__name__}: {e}', exc_info=True)
+            await update.message.reply_text('Ошибка в работе системы.')
+
+    @abstractmethod
+    async def _handle(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        """Внутренний метод для реализации логики обработки событий."""
         pass
 
     def get_handler(self) -> CommandHandler | MessageHandler:

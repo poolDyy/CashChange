@@ -2,7 +2,7 @@ from telegram import KeyboardButton, ReplyKeyboardMarkup, Update
 from telegram.ext import CallbackContext
 
 
-class BaseKeyBoard:
+class BaseReplyKeyBoard:
     """Базовый класс клавиатуры."""
 
     KEYS = []

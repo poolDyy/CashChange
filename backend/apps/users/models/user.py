@@ -70,7 +70,7 @@ class User(
         default=True,
     )
 
-    is_verify = models.BooleanField(
+    is_verified = models.BooleanField(
         verbose_name='Верифицированный',
         default=False,
     )
@@ -93,8 +93,8 @@ class User(
         ordering = ['-created_at']
         constraints = [
             models.CheckConstraint(
-                condition=Q(is_verify=False) | Q(telegram_user__isnull=False),
-                name='is_verify_requires_telegram_user',
+                condition=Q(is_verified=False) | Q(telegram_user__isnull=False),
+                name='is_verified_requires_telegram_user',
             )
         ]
 

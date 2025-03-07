@@ -10,7 +10,7 @@ __all__ = ['StartHandler']
 class StartHandler(BaseHandler):
     """Обработчик команды /start."""
 
-    async def handle(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    async def _handle(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         """Обрабатывает команду /start."""
         user = update.message.from_user
         user_id = user.id

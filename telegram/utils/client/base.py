@@ -2,14 +2,12 @@ import dataclasses
 from typing import Any
 
 import aiohttp
-
 from config import Config
 from utils.logger import logger
 
 __all__ = [
-    'BackendClientMixin',
-    'get_backend_client',
     'ResponseData',
+    'client',
 ]
 
 
@@ -43,7 +41,6 @@ class BackendClient:
         :param endpoint: Конечная точка API (например, "/api/users/")
         :param data: Тело запроса (для POST)
         :param params: Параметры запроса (для GET)
-        :return: Кортеж (статус код, данные ответа)
         """
         url = f'{self.BACKEND_URL}{endpoint}'
         try:
@@ -70,7 +67,6 @@ class BackendClient:
 
         :param endpoint: Конечная точка API (например, "/api/users/")
         :param params: Параметры запроса
-        :return: Кортеж (статус код, данные ответа)
         """
         return await self._make_request('GET', endpoint, params=params)
 
@@ -84,19 +80,8 @@ class BackendClient:
 
         :param endpoint: Конечная точка API (например, "/api/users/")
         :param data: Тело запроса
-        :return: Кортеж (статус код, данные ответа)
         """
         return await self._make_request('POST', endpoint, data=data)
 
 
-class BackendClientMixin:
-    """Миксин для получения клиента."""
-
-    @property
-    def client(self) -> BackendClient:
-        return BackendClient()
-
-
-def get_backend_client() -> BackendClient:
-    """Получает клиент."""
-    return BackendClient()
+client = BackendClient()

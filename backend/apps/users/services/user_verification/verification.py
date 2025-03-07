@@ -32,6 +32,7 @@ class VerificationService:
             )
 
             user.telegram_user = telegram_user
+            user.is_verified = True
             user.save()
         except CodeDoesNotValid:
             return
