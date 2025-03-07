@@ -35,11 +35,11 @@ python_files = ["test_*.py", "*_test.py"]
 line-length = 120
 lint.select = [
     "ANN", "E4", "E7", "E9", "F", "I", "T20",
-    "D101", "D103", "D200", "D201", "D203", "D204", "D205", "D206", "D207", "D208", "D209",
+    "D101", "D103", "D200", "D201",  "D204", "D206", "D207", "D208", "D209",
     "D301", "D403", "D400", "D401", "D402", "D404", "D415",
 ]
 lint.ignore = [
-    "D1", "D203", "D213", "D205", "ANN401", "RUF001", "ARG002", "ARG001", "RUF012", "SLF001",
+   "ANN401", "RUF001", "ARG002", "ARG001", "RUF012", "SLF001",
 ]
 
 exclude = [
@@ -64,4 +64,11 @@ line-ending = "auto"
 
 [tool.ruff.lint.extend-per-file-ignores]
 "tests/*.py" = ["S101", "S106", "D", "ANN"]
-"**/migrations/*.py" = ["S101", "S106", "D", "ANN"]
+"**/migrations/*.py" = ["S101", "S106", "D1", "D203", "D213", "D205", "ANN"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["api", "apps", "src", "test"]
+lines-after-imports = 2
+lines-between-types = 1
+combine-as-imports = true
+order-by-type = true

@@ -11,6 +11,7 @@ from api.v1.users.serializers import (
 )
 from apps.users.models import User
 
+
 __all__ = [
     'UserViewSet',
 ]

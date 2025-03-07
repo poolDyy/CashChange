@@ -1,6 +1,8 @@
 import dataclasses
+
 from abc import ABC
 from typing import Any, Self
+
 
 __all__ = [
     'DataBaseDTO',

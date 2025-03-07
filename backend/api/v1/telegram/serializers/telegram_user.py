@@ -1,6 +1,8 @@
+from rest_framework import serializers
+
 from api.common.validatiors import validate_telegram_username, validate_telegram_username_is_not_verified
 from apps.telegram.models import TelegramUser
-from rest_framework import serializers
+
 
 __all__ = [
     'TelegramUserModelSerializer',

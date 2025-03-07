@@ -2,6 +2,7 @@ import dataclasses
 
 from endpoints.dto.base import DataBaseDTO
 
+
 __all__ = [
     'RequestIsVerifiedDTO',
     'ResponseIsVerifiedDTO',

@@ -1,3 +1,9 @@
+from rest_framework import status
+from rest_framework.decorators import action
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin
+from rest_framework.request import Request
+from rest_framework.response import Response
+
 from api.common.views import BaseGenericViewSet
 from api.v1.telegram.permissions import IsTelegramBot
 from api.v1.telegram.serializers import (
@@ -5,11 +11,7 @@ from api.v1.telegram.serializers import (
     TelegramUserVerificationCodeSerializer,
 )
 from apps.telegram.models import TelegramUser
-from rest_framework import status
-from rest_framework.decorators import action
-from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin
-from rest_framework.request import Request
-from rest_framework.response import Response
+
 
 __all__ = ['TelegramUserViewSet']
 

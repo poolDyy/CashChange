@@ -1,6 +1,8 @@
 import pytest
-from apps.telegram.models import TelegramUser
+
 from rest_framework import status
+
+from apps.telegram.models import TelegramUser
 
 
 @pytest.mark.django_db

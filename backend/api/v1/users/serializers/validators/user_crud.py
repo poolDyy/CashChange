@@ -1,5 +1,6 @@
 from rest_framework.serializers import ValidationError
 
+
 __all__ = [
     'validate_password',
 ]

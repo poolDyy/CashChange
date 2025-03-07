@@ -1,7 +1,9 @@
 import pytest
+
+from mixer.backend.django import mixer as _mixer
+
 from apps.telegram.models import TelegramUser
 from apps.users.models import User
-from mixer.backend.django import mixer as _mixer
 
 from .common import ApiTestClient, ApiTestClientAuth, ApiTestClientTelegram
 

@@ -1,8 +1,10 @@
 import logging
 import os
+
 from logging.handlers import TimedRotatingFileHandler
 
 from config import Config
+
 
 __all__ = ['logger']
 

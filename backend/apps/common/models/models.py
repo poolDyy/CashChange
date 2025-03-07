@@ -4,6 +4,7 @@ from django.db import models
 from apps.common.models.choices import StatusChoices
 from apps.common.models.managers import ArchivedManager, PublishedManager
 
+
 __all__ = [
     'TimeStampedModel',
     'BaseModel',

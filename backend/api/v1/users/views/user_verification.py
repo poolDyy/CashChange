@@ -1,3 +1,9 @@
+from rest_framework import status
+from rest_framework.decorators import action
+from rest_framework.exceptions import ValidationError
+from rest_framework.request import Request
+from rest_framework.response import Response
+
 from api.common.enums import SerializerType
 from api.common.permissions import IsAuthenticatedAndNotVerified
 from api.common.types import SerializerMapping, SerializerTypeMapping
@@ -9,11 +15,6 @@ from api.v1.users.serializers import (
 )
 from apps.users.models import VerificationCodeTelegram
 from apps.users.services.user_verification import VerificationCodeCreateService, VerificationService
-from rest_framework import status
-from rest_framework.decorators import action
-from rest_framework.exceptions import ValidationError
-from rest_framework.request import Request
-from rest_framework.response import Response
 
 
 class VerificationCodeTelegramCreateViewSet(

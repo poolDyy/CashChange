@@ -2,6 +2,7 @@ from api.common.serializers import serializers
 from api.v1.users.serializers.validators import validate_password
 from apps.users.models import User
 
+
 __all__ = [
     'UserListRetrieveSerializer',
     'UserCreateRequestSerializer',

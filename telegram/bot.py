@@ -1,9 +1,8 @@
 from config import Config
 from handlers import AboutHandler, StartHandler
 from handlers.verify import VerifyCodeHandler
-from utils.logger import logger
-
 from telegram.ext import ApplicationBuilder
+from utils.logger import logger
 
 
 def main() -> None:

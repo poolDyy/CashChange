@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -28,7 +27,15 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Код верификации пользователя.',
                 'verbose_name_plural': 'Коды верификации пользователя.',
                 'ordering': ['-created_at'],
-                'constraints': [models.UniqueConstraint(fields=('code', 'telegram_username'), name='unique_code_per_telegram_username'), models.CheckConstraint(condition=models.Q(('telegram_username__contains', '@'), _negated=True), name='vct_telegram_username_contains_at')],
+                'constraints': [
+                    models.UniqueConstraint(
+                        fields=('code', 'telegram_username'), name='unique_code_per_telegram_username'
+                    ),
+                    models.CheckConstraint(
+                        condition=models.Q(('telegram_username__contains', '@'), _negated=True),
+                        name='vct_telegram_username_contains_at',
+                    ),
+                ],
             },
         ),
         migrations.CreateModel(
@@ -37,22 +44,72 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('password', models.CharField(max_length=128, verbose_name='password')),
                 ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
-                ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
+                (
+                    'is_superuser',
+                    models.BooleanField(
+                        default=False,
+                        help_text='Designates that this user has all permissions without explicitly assigning them.',
+                        verbose_name='superuser status',
+                    ),
+                ),
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')),
                 ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Дата обновления')),
-                ('username', models.CharField(error_messages={'unique': 'Пользователь с таким логином уже существует'}, max_length=150, unique=True, validators=[django.contrib.auth.validators.UnicodeUsernameValidator()], verbose_name='Логин')),
+                (
+                    'username',
+                    models.CharField(
+                        error_messages={'unique': 'Пользователь с таким логином уже существует'},
+                        max_length=150,
+                        unique=True,
+                        validators=[django.contrib.auth.validators.UnicodeUsernameValidator()],
+                        verbose_name='Логин',
+                    ),
+                ),
                 ('name', models.CharField(max_length=150, verbose_name='Имя')),
                 ('is_active', models.BooleanField(default=True, verbose_name='Активный')),
                 ('is_verified', models.BooleanField(default=False, verbose_name='Верифицированный')),
-                ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')),
-                ('telegram_user', models.OneToOneField(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='user', to='telegram.telegramuser', verbose_name='Телеграмм пользователь')),
-                ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.permission', verbose_name='user permissions')),
+                (
+                    'groups',
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.',
+                        related_name='user_set',
+                        related_query_name='user',
+                        to='auth.group',
+                        verbose_name='groups',
+                    ),
+                ),
+                (
+                    'telegram_user',
+                    models.OneToOneField(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name='user',
+                        to='telegram.telegramuser',
+                        verbose_name='Телеграмм пользователь',
+                    ),
+                ),
+                (
+                    'user_permissions',
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text='Specific permissions for this user.',
+                        related_name='user_set',
+                        related_query_name='user',
+                        to='auth.permission',
+                        verbose_name='user permissions',
+                    ),
+                ),
             ],
             options={
                 'verbose_name': 'Пользователь',
                 'verbose_name_plural': 'Пользователи',
                 'ordering': ['-created_at'],
-                'constraints': [models.CheckConstraint(condition=models.Q(('is_verified', False), ('telegram_user__isnull', False), _connector='OR'), name='is_verified_requires_telegram_user')],
+                'constraints': [
+                    models.CheckConstraint(
+                        condition=models.Q(('is_verified', False), ('telegram_user__isnull', False), _connector='OR'),
+                        name='is_verified_requires_telegram_user',
+                    )
+                ],
             },
         ),
     ]

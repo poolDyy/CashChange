@@ -1,6 +1,8 @@
 import pytest
-from apps.users.models import VerificationCodeTelegram
+
 from rest_framework import status
+
+from apps.users.models import VerificationCodeTelegram
 
 
 @pytest.mark.django_db
@@ -71,7 +73,6 @@ class TestUserVerification:
             data=data,
             expected_status=status.HTTP_400_BAD_REQUEST,
         )
-        print(response)
         assert 'Неверный код верификации' in response['non_field_errors']
 
     def test_verify_unknown_telegram_user(self, auth_api_client_unverified, verification_code):
@@ -83,7 +84,6 @@ class TestUserVerification:
         response = auth_api_client_unverified.post(
             self.VERIFY_URL, data=data, expected_status=status.HTTP_400_BAD_REQUEST
         )
-        print(response)
         assert 'Не найден пользователь Telegram с таким именем.' in response['non_field_errors'][0]
 
     def test_verify_already_verified(self, auth_api_client_verified, verification_code):

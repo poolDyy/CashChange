@@ -2,6 +2,7 @@ from endpoints.dto import RequestCreateUserDTO, ResponseCreateUserDTO
 from endpoints.endpoints.base import EndpointDTO
 from utils.client.statuses import HTTP_201_CREATED
 
+
 __all__ = ['CreateUserEndpoint']
 
 

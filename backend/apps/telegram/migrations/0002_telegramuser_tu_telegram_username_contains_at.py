@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('telegram', '0001_initial'),
     ]
@@ -12,6 +11,9 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddConstraint(
             model_name='telegramuser',
-            constraint=models.CheckConstraint(condition=models.Q(('telegram_username__contains', '@'), _negated=True), name='tu_telegram_username_contains_at'),
+            constraint=models.CheckConstraint(
+                condition=models.Q(('telegram_username__contains', '@'), _negated=True),
+                name='tu_telegram_username_contains_at',
+            ),
         ),
     ]

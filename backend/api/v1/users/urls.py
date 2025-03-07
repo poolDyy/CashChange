@@ -2,6 +2,7 @@ from rest_framework import routers
 
 from api.v1.users.views import UserViewSet, VerificationCodeTelegramCreateViewSet
 
+
 app_name = 'users'
 
 router = routers.DefaultRouter()

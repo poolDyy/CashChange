@@ -2,6 +2,7 @@ from endpoints.dto import RequestVerifyCodeDTO, ResponseVerifyCodeDTO
 from endpoints.endpoints.base import EndpointDTO
 from utils.client.statuses import HTTP_200_OK
 
+
 __all__ = ['VerifyCodeEndpoint']
 
 

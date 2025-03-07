@@ -2,6 +2,7 @@ from handlers.base import BaseHandler
 from telegram import Update
 from telegram.ext import ContextTypes, MessageHandler, filters
 
+
 __all__ = ['AboutHandler']
 
 from handlers.keyboards.reply.main import MainKeyBoard

@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 from apps.telegram.models import TelegramUser
 from apps.users.models import VerificationCodeTelegram
 
+
 if TYPE_CHECKING:
     from apps.users.models import User
 

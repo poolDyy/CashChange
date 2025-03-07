@@ -1,5 +1,7 @@
-from apps.common.models import TimeStampedModel
 from django.db import models
+
+from apps.common.models import TimeStampedModel
+
 
 __all__ = ['VerificationCodeTelegram']
 

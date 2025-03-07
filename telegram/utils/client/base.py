@@ -1,9 +1,12 @@
 import dataclasses
+
 from typing import Any
 
 import aiohttp
+
 from config import Config
 from utils.logger import logger
+
 
 __all__ = [
     'ResponseData',

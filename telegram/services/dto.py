@@ -1,7 +1,9 @@
 import dataclasses
+
 from typing import Type
 
 from handlers.keyboards.reply.base import BaseReplyKeyBoard
+
 
 __all__ = ['HandlerServiceResponseDTO']
 

@@ -58,3 +58,10 @@ line-ending = "auto"
 
 [tool.ruff.lint.extend-per-file-ignores]
 "tests/*.py" = ["S101", "S106", "D", "ANN"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["endpoints", "handlers", "services", "utils"]
+lines-after-imports = 2
+lines-between-types = 1
+combine-as-imports = true
+order-by-type = true

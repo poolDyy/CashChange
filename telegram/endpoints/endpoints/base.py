@@ -2,12 +2,14 @@ from typing import Generic, Type, TypeVar
 
 from endpoints.dto.base import DataBaseDTO
 
+
 __all__ = ['EndpointDTO']
 
 from endpoints.exceptions import AnswerException, Http404Exception
 from utils.client import client
 from utils.client.statuses import HTTP_404_NOT_FOUND
 from utils.logger import logger
+
 
 Req = TypeVar('Req', bound=DataBaseDTO)
 Res = TypeVar('Res', bound=DataBaseDTO)

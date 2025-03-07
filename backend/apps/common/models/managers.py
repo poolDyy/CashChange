@@ -3,6 +3,7 @@ from django.db.models import QuerySet
 
 from apps.common.models.choices import StatusChoices
 
+
 __all__ = [
     'PublishedManager',
     'ArchivedManager',

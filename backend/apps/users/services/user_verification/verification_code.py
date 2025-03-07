@@ -2,6 +2,7 @@ from random import randint
 
 from apps.users.models import VerificationCodeTelegram
 
+
 __all__ = ['VerificationCodeCreateService']
 
 
