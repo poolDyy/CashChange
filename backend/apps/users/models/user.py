@@ -78,11 +78,11 @@ class User(
     )
 
     telegram_user = models.OneToOneField(
-        verbose_name='Телеграмм пользователь',
         to='telegram.TelegramUser',
         on_delete=models.SET_NULL,
         null=True,
         related_name='user',
+        verbose_name='Телеграмм пользователь',
     )
 
     USERNAME_FIELD = 'username'
@@ -97,7 +97,7 @@ class User(
             models.CheckConstraint(
                 condition=Q(is_verified=False) | Q(telegram_user__isnull=False),
                 name='is_verified_requires_telegram_user',
-            )
+            ),
         ]
 
     def __str__(self) -> str:

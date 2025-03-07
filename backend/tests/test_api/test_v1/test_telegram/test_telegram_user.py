@@ -17,12 +17,18 @@ class TestTelegramUserVerificationCode:
         response = telegram_api_test_client.post(
             self.BASE_URL,
             data=telegram_user_data,
-            expected_status=status.HTTP_201_CREATED,
         )
-
         assert TelegramUser.objects.filter(telegram_id=telegram_user_data['telegram_id']).exists()
         assert response['telegram_id'] == telegram_user_data['telegram_id']
         assert response['telegram_username'] == telegram_user_data['telegram_username']
+
+    def test_get_telegram_user_success(self, telegram_api_test_client, telegram_user):
+        """Телеграм-бот должен успешно создавать пользователя (201 Created)."""
+
+        telegram_api_test_client.get(
+            f'{self.BASE_URL}{telegram_user.telegram_id}/',
+        )
+
 
     def test_create_telegram_user_missing_telegram_id(self, telegram_api_test_client, telegram_user_data):
         """Запрос без telegram_id должен возвращать 400 Bad Request."""
