@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 
 from apps.common.models import BaseModel
 
@@ -54,20 +55,23 @@ class Offer(BaseModel):
 
     cost = models.DecimalField(
         verbose_name='Цена',
+        max_digits=10,
         decimal_places=2,
-        blank=True,
+        null=True,
     )
 
     min_value = models.DecimalField(
         verbose_name='Минимальный объем',
-        decimal_places=6,
-        blank=True,
+        max_digits=12,
+        decimal_places=2,
+        null=True,
     )
 
     max_value = models.DecimalField(
         verbose_name='Максимальный объем',
-        decimal_places=6,
-        blank=True,
+        max_digits=12,
+        decimal_places=2,
+        null=True,
     )
 
     rate = models.SmallIntegerField(
@@ -86,4 +90,10 @@ class Offer(BaseModel):
             models.Index(fields=['user']),
             models.Index(fields=['city']),
             models.Index(fields=['currency']),
+        ]
+        constraints = [
+            models.CheckConstraint(
+                check=Q(max_value__gte=models.F('min_value')) | Q(min_value__isnull=True) | Q(max_value__isnull=True),
+                name='ofr_check_max_value_gte_min_value',
+            ),
         ]

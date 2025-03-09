@@ -36,8 +36,14 @@ class ExUpdateModelMixin:
     """Обновление экземпляра модели."""
 
     def update(self, request: Request, *args: Any, **kwargs: Any) -> Response:
+        partial = kwargs.pop('partial', False)
         instance = self.get_object()
-        serializer = self.get_serializer(data=request.data, instance=instance, type_=SerializerType.REQUEST)
+        serializer = self.get_serializer(
+            data=request.data,
+            instance=instance,
+            type_=SerializerType.REQUEST,
+            partial=partial,
+        )
         serializer.is_valid(raise_exception=True)
 
         instance = self.perform_update(serializer)

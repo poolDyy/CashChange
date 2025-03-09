@@ -15,7 +15,13 @@ class Currency(BaseModel):
         verbose_name='Валюта',
     )
 
+    code = models.CharField(
+        max_length=10,
+        unique=True,
+        verbose_name='Код',
+    )
+
     class Meta:
-        ordering = ('title',)
+        ordering = ('code',)
         verbose_name = 'Валюта'
         verbose_name_plural = 'Валюты'

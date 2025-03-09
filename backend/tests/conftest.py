@@ -34,19 +34,19 @@ def auth_user(mixer):
 
 @pytest.fixture
 def telegram_user(mixer):
-    return mixer.blend(TelegramUser, telegram_username='testuser', telegram_id='1111')
+    return mixer.blend(TelegramUser, telegram_username='telegramtestuser', telegram_id='1111')
 
 
 @pytest.fixture
 def unverified_user(mixer):
     """Создает пользователя, который НЕ прошел верификацию."""
-    return create_user(mixer, username='testuser', is_verified=False, telegram_user=None)
+    return create_user(mixer, username='unverifiedtestuser', is_verified=False, telegram_user=None)
 
 
 @pytest.fixture
 def verified_user(mixer, telegram_user):
     """Создает пользователя, который уже верифицирован."""
-    return create_user(mixer, username='testuser', is_verified=True, telegram_user=telegram_user)
+    return create_user(mixer, username='verifiedtestuser', is_verified=True, telegram_user=telegram_user)
 
 
 @pytest.fixture

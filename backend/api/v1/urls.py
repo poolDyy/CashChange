@@ -14,4 +14,9 @@ urlpatterns = [
         include('api.v1.telegram.urls'),
         name='telegram',
     ),
+    path(
+        'offers/',
+        include('api.v1.offers.urls'),
+        name='offers',
+    ),
 ]
