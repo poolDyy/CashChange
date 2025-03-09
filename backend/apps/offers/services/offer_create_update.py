@@ -53,6 +53,7 @@ class OfferCreateService(OfferBase):
     cost: Decimal | None
     min_value: Decimal | None
     max_value: Decimal | None
+    updated_by: 'User'
 
     def validate(self) -> None:
         """Проверяет данные перед созданием."""
@@ -91,6 +92,7 @@ class OfferUpdateService(OfferBase):
     cost: Decimal | None | UnsetType = UNSET
     min_value: Decimal | None | UnsetType = UNSET
     max_value: Decimal | None | UnsetType = UNSET
+    updated_by: 'User | UnsetType' = UNSET
 
     def validate(self) -> None:
         """Проверяет данные перед обновлением."""
@@ -116,6 +118,7 @@ class OfferUpdateService(OfferBase):
             'cost',
             'min_value',
             'max_value',
+            'updated_by',
         ]
         for field in fields_to_update:
             value = getattr(self, field)

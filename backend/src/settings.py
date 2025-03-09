@@ -31,6 +31,7 @@ DJANGO_APPS = [
 ]
 
 OUR_DJANGO_APPS = [
+    'apps.feedback.apps.FeedbackConfig',
     'apps.geo.apps.GeoConfig',
     'apps.offers.apps.OffersConfig',
     'apps.telegram.apps.TelegramConfig',

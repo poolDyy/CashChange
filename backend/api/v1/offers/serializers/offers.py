@@ -79,7 +79,6 @@ class OfferCreateUpdateRequestSerializer(BaseSerializer):
             'id',
             'title',
             'description',
-            'user',
             'city',
             'currency',
             'cost',

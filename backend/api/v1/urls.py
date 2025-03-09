@@ -19,4 +19,9 @@ urlpatterns = [
         include('api.v1.offers.urls'),
         name='offers',
     ),
+    path(
+        'feedback/',
+        include('api.v1.feedback.urls', namespace='feedback'),
+        name='feedback',
+    ),
 ]

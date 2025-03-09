@@ -11,6 +11,7 @@ __all__ = [
     'IsAuthenticatedAndNotVerified',
     'IsVerifiedOrReadOnly',
     'IsOwnerOrReadOnly',
+    'ReadOnly',
 ]
 
 
@@ -46,6 +47,7 @@ class IsOwnerOrReadOnly(BasePermission):
             return True
 
         return obj.user == request.user
+
 
 class ReadOnly(BasePermission):
     """Разрешены только safe методы."""

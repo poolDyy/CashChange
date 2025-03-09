@@ -44,7 +44,7 @@ class BaseApiTestClient(ABC, APIClient):
         **kwargs,
     ):
         response = self.api_client.post(*args, **kwargs)
-
+        print(response.json())
         assert response.status_code == expected_status
         return response.json()
 

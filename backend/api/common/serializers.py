@@ -9,5 +9,5 @@ class BaseSerializer(serializers.ModelSerializer):
     def validate(self, attrs: Dict) -> Dict:
         request = self.context.get('request')
         if request and request.user.is_authenticated:
-            attrs.setdefault('update_user', request.user)
+            attrs.setdefault('updated_by', request.user)
         return attrs

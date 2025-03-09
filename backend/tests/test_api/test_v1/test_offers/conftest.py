@@ -53,14 +53,13 @@ def currency(mixer) -> Currency:
 
 
 @pytest.fixture
-def offer_data(mixer, verified_user) -> dict:
+def offer_data(mixer) -> dict:
     city = mixer.blend(City)
-    currency = mixer.blend(Currency)
+    currency_ = mixer.blend(Currency)
 
     data = {
-        'user': verified_user.id,
         'city': city.id,
-        'currency': currency.id,
+        'currency': currency_.id,
         'title': 'Продам монету',
         'description': 'Срочно по выгодной цене, район Синагоги',
         'offer_type': Offer.OfferTypeChoices.SELL,

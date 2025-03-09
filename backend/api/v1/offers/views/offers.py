@@ -48,7 +48,9 @@ class OfferViewSet(BaseModelViewSet):
     )
 
     def perform_create(self, serializer: ModelSerializer) -> Offer:
-        service = OfferCreateService.from_dict(data=serializer.validated_data)
+        data = serializer.validated_data
+        data['user'] = self.request.user
+        service = OfferCreateService.from_dict(data=data)
         offer = service.create()
         return offer
 
