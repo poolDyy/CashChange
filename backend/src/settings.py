@@ -31,6 +31,7 @@ DJANGO_APPS = [
 ]
 
 OUR_DJANGO_APPS = [
+    'apps.chat.apps.ChatConfig',
     'apps.feedback.apps.FeedbackConfig',
     'apps.geo.apps.GeoConfig',
     'apps.offers.apps.OffersConfig',
@@ -205,3 +206,8 @@ SPECTACULAR_SETTINGS = {
     'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
     'REDOC_DIST': 'SIDECAR',
 }
+
+
+CENTIFUGO_SECRET = env('CENTIFUGO_SECRET')
+CENTRIFUGO_HTTP_API_KEY = env('CENTRIFUGO_HTTP_API_KEY')
+CENTIFUGO_EXP_TIME = timedelta(days=1)

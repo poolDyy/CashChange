@@ -1,0 +1,1 @@
+from .allowed_attachment import AllowedAttachment, allowed_attachment

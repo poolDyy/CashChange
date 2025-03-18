@@ -93,7 +93,9 @@ class Offer(BaseModel):
         ]
         constraints = [
             models.CheckConstraint(
-                check=Q(max_value__gte=models.F('min_value')) | Q(min_value__isnull=True) | Q(max_value__isnull=True),
+                condition=Q(max_value__gte=models.F('min_value'))
+                | Q(min_value__isnull=True)
+                | Q(max_value__isnull=True),
                 name='ofr_check_max_value_gte_min_value',
             ),
         ]

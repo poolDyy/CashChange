@@ -8,6 +8,18 @@ networks:
     driver: bridge
 
 services:
+
+  nginx:
+    image: nginx:1.25
+    volumes:
+      - ./cicd/nginx:/etc/nginx/
+    ports:
+      - 9000:80
+    depends_on:
+      - backend
+    networks:
+      - cc_network
+
   postgres:
     image: postgres:17.3-alpine
     environment:

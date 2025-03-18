@@ -1,11 +1,12 @@
 import dataclasses
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from decimal import Decimal
-from typing import TYPE_CHECKING, Any, Self
+from typing import TYPE_CHECKING
 
 from rest_framework.exceptions import ValidationError
 
+from apps.common.mixins import FromDictMixin
 from apps.common.services.unset import UNSET, UnsetType
 from apps.offers.models import Offer
 
@@ -23,7 +24,7 @@ __all__ = [
 
 
 @dataclasses.dataclass
-class OfferBase(ABC):
+class OfferBase(FromDictMixin):
     """Базовый класс сервиса."""
 
     def __post_init__(self) -> None:
@@ -32,12 +33,6 @@ class OfferBase(ABC):
     @abstractmethod
     def validate(self) -> None:
         """Проверяет данные перед созданием."""
-
-    @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> Self:
-        fields = {field.name for field in dataclasses.fields(cls)}
-        filtered_data = {key: value for key, value in data.items() if key in fields}
-        return cls(**filtered_data)
 
 
 @dataclasses.dataclass

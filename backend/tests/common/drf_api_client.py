@@ -33,7 +33,7 @@ class BaseApiTestClient(ABC, APIClient):
         expected_status: int = status.HTTP_200_OK,
         **kwargs,
     ):
-        response = self.api_client.get(*args, **kwargs)
+        response = self.api_client.get(*args, format='json', **kwargs)
         assert response.status_code == expected_status
         return response.json()
 
@@ -43,7 +43,7 @@ class BaseApiTestClient(ABC, APIClient):
         expected_status: int = status.HTTP_201_CREATED,
         **kwargs,
     ):
-        response = self.api_client.post(*args, **kwargs)
+        response = self.api_client.post(*args, format='json', **kwargs)
         print(response.json())
         assert response.status_code == expected_status
         return response.json()
@@ -54,7 +54,7 @@ class BaseApiTestClient(ABC, APIClient):
         expected_status: int = status.HTTP_200_OK,
         **kwargs,
     ):
-        response = self.api_client.put(*args, **kwargs)
+        response = self.api_client.put(*args, format='json', **kwargs)
         assert response.status_code == expected_status
         return response.json()
 
@@ -64,7 +64,7 @@ class BaseApiTestClient(ABC, APIClient):
         expected_status: int = status.HTTP_200_OK,
         **kwargs,
     ):
-        response = self.api_client.patch(*args, **kwargs)
+        response = self.api_client.patch(*args, format='json', **kwargs)
         assert response.status_code == expected_status
         return response.json()
 
@@ -74,7 +74,7 @@ class BaseApiTestClient(ABC, APIClient):
         expected_status: int = status.HTTP_204_NO_CONTENT,
         **kwargs,
     ):
-        response = self.api_client.delete(*args, **kwargs)
+        response = self.api_client.delete(*args, format='json', **kwargs)
         assert response.status_code == expected_status
         return response
 

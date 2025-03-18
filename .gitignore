@@ -231,3 +231,4 @@ pyrightconfig.json
 .ruff_cache
 /telegram/.env
 /telegram/logs/
+/cicd/centrifugo/.env

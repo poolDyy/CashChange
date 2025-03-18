@@ -19,6 +19,7 @@ class ExCreateModelMixin:
     """Создание экземпляра модели."""
 
     def create(self, request: Request, *args: Any, **kwargs: Any) -> Response:
+        print(request.data)
         serializer = self.get_serializer(data=request.data, type_=SerializerType.REQUEST)
         serializer.is_valid(raise_exception=True)
         instance = self.perform_create(serializer)
@@ -73,20 +74,23 @@ class SerializerViewSetMixin:
     def _none(*args: Any, **kwargs: Any) -> None:
         return None
 
-    def _get_serializer_serializer_mapping_by_action(self, action_name: str) -> SerializerTypeMapping | None:
+    def _get_serializer_mapping_by_action(self, action_name: str) -> SerializerTypeMapping | None:
+        """Возвращает маппинг сериализатора в зависимости от экшена."""
         if hasattr(self.serializers, action_name):
             return getattr(self.serializers, action_name)
         else:
             return self.serializers.actions.get(action_name)
 
     def get_serializer_class(self, *, type_: str) -> Type[Serializer] | None:
+        """Возвращает сериализаор в зависимости от типа реквест или респонс."""
         action_name = getattr(self, 'action', None)
-        serializer_mapping = self._get_serializer_serializer_mapping_by_action(action_name)
+        serializer_mapping = self._get_serializer_mapping_by_action(action_name)
         if serializer_mapping and getattr(serializer_mapping, type_, None):
             return getattr(serializer_mapping, type_)
         return self._none()
 
     def get_serializer(self, *args: Any, **kwargs: Any) -> Serializer:
+        """Возвращает инстанс сериализатора."""
         serializer_type = kwargs.pop('type_', SerializerType.RESPONSE)
         serializer_class = self.get_serializer_class(type_=serializer_type)
         if serializer_class is None:
