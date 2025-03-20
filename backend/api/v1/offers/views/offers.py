@@ -1,7 +1,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.serializers import ModelSerializer
 
-from api.common.permissions import IsOwnerOrReadOnly, IsVerifiedOrReadOnly
+from api.common.permissions import HasUserPermsOrReadOnly, IsVerifiedOrReadOnly
 from api.common.types import SerializerMapping, SerializerTypeMapping
 from api.common.views import BaseModelViewSet
 from api.v1.offers.filters import OfferFilter
@@ -17,7 +17,7 @@ from apps.offers.services import OfferCreateService, OfferUpdateService
 class OfferViewSet(BaseModelViewSet):
     """ViewSet предложения."""
 
-    permission_classes = [IsVerifiedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [IsVerifiedOrReadOnly, HasUserPermsOrReadOnly]
 
     queryset = Offer.objects.all()
 

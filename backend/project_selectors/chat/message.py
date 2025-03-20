@@ -1,7 +1,7 @@
 from django.contrib.contenttypes.prefetch import GenericPrefetch
 from django.db.models import Prefetch, QuerySet
 
-from apps.chat.models import Attachment, Message
+from apps.chat.models import Attachment, Chat, Message
 from apps.offers.models import Offer
 
 
@@ -29,3 +29,27 @@ def get_message_queryset_for_chat(chat_id: int) -> QuerySet[Message]:
         .prefetch_related(attachments_prefetch)
         .filter(chat_id=chat_id)
     )
+
+
+def get_previous_messages(
+    chat: Chat,
+    message: Message,
+    queryset: QuerySet[Message] | None = None,
+) -> QuerySet[Message]:
+    """Возвращает предыдущие сообщения."""
+    messages = queryset or get_message_queryset_for_chat(chat_id=chat.id)
+    return messages.filter(
+        created_at__lt=message.created_at,
+    ).order_by('-created_at')
+
+
+def get_new_messages(
+    chat: Chat,
+    message: Message,
+    queryset: QuerySet[Message] | None = None,
+) -> QuerySet[Message]:
+    """Возвращает новые сообщения."""
+    messages = queryset or get_message_queryset_for_chat(chat_id=chat.id)
+    return messages.filter(
+        created_at__gt=message.created_at,
+    ).order_by('created_at')

@@ -44,4 +44,5 @@ class MessageResponseModelSerializer(BaseSerializer):
             'sender',
             'chat',
             'attachments',
+            'created_at',
         )

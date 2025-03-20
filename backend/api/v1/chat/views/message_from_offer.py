@@ -37,8 +37,8 @@ class MessageFromOfferModelViewSet(
 
     @cached_property
     def get_offer_object(self) -> Offer:
-        chat_id = self.kwargs.get('offer_id')
-        return get_object_or_404(Offer, pk=chat_id)
+        offer_id = self.kwargs.get('offer_id')
+        return get_object_or_404(Offer, pk=offer_id)
 
     def perform_create(self, serializer: ModelSerializer) -> Message:
         data = serializer.data

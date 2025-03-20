@@ -54,3 +54,6 @@ class BaseModel(TimeStampedModel):
     class Meta:
         abstract = True
         ordering = ['-created']
+
+    def user_obj_permission(self, user_id: int) -> bool:
+        raise NotImplementedError('Необходимо переопределить user_obj_permission')

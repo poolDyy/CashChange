@@ -33,3 +33,6 @@ class Chat(BaseModel):
 
     def __str__(self) -> str:
         return f'{self.pk}: {self.title}'
+
+    def user_obj_permission(self, user_id: int) -> bool:
+        return user_id in self.members.values_list('id', flat=True)

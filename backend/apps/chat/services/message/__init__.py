@@ -1,2 +1,3 @@
 from .create_service import MessageCreateService
 from .create_from_offer_service import MessageCreateFromOfferService
+from .get_service import MessageGetService

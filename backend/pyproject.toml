@@ -67,7 +67,7 @@ line-ending = "auto"
 "**/migrations/*.py" = ["S101", "S106", "D1", "D203", "D213", "D205", "ANN"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["api", "apps", "src", "test"]
+known-first-party = ["api", "apps", "src", "test", "project_selectors"]
 lines-after-imports = 2
 lines-between-types = 1
 combine-as-imports = true

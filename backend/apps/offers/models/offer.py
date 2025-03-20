@@ -99,3 +99,6 @@ class Offer(BaseModel):
                 name='ofr_check_max_value_gte_min_value',
             ),
         ]
+
+    def user_obj_permission(self, user_id: int) -> bool:
+        return user_id  == self.user_id

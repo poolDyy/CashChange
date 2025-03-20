@@ -4,7 +4,6 @@ from datetime import datetime
 
 from django.db import transaction
 from django.utils.timezone import now
-from rest_framework.exceptions import ValidationError
 
 from apps.chat.models import Attachment, Chat, ChatMember, Message
 from apps.common.mixins import FromDictMixin
@@ -29,7 +28,6 @@ class MessageCreateService(FromDictMixin):
 
     def __post_init__(self) -> None:
         self._filter_attachments()
-        self.validate()
 
     def _filter_attachments(self) -> None:
         """Фильтрует вложения, оставляя только разрешенные типы."""
@@ -38,10 +36,6 @@ class MessageCreateService(FromDictMixin):
             for attachment in self.attachments
             if attachment.attachment_name.lower() in allowed_attachment.get_allowed_models_names
         ]
-
-    def validate(self) -> None:
-        if not ChatMember.objects.filter(chat_id=self.chat.id, user_id=self.sender.id).exists():
-            raise ValidationError({'sender': 'Пользователь не является участником чата'})
 
     def create(self) -> Message:
         with transaction.atomic():

@@ -1,6 +1,5 @@
 from typing import Type
 
-from django.db.models import Model
 from rest_framework.permissions import SAFE_METHODS, BasePermission
 from rest_framework.request import Request
 from rest_framework.viewsets import ViewSet
@@ -11,9 +10,12 @@ __all__ = [
     'IsAuthenticatedAndNotVerified',
     'IsAuthenticatedAndVerified',
     'IsVerifiedOrReadOnly',
-    'IsOwnerOrReadOnly',
+    'HasUserPerms',
+    'HasUserPermsOrReadOnly',
     'ReadOnly',
 ]
+
+from apps.common.models import BaseModel
 
 
 class IsUnauthenticated(BasePermission):
@@ -47,14 +49,21 @@ class IsVerifiedOrReadOnly(BasePermission):
         )
 
 
-class IsOwnerOrReadOnly(BasePermission):
+class HasUserPerms(BasePermission):
+    """Проверяет права пользователя на объект модели."""
+
+    def has_object_permission(self, request: Request, view: Type[ViewSet], obj: BaseModel) -> bool:
+        return obj.user_obj_permission(request.user.id)
+
+
+class HasUserPermsOrReadOnly(BasePermission):
     """Разрешение, которое позволяет только владельцу объекта редактировать или удалять его."""
 
-    def has_object_permission(self, request: Request, view: Type[ViewSet], obj: Model) -> bool:
+    def has_object_permission(self, request: Request, view: Type[ViewSet], obj: BaseModel) -> bool:
         if request.method in SAFE_METHODS:
             return True
 
-        return obj.user == request.user
+        return obj.user_obj_permission(request.user.id)
 
 
 class ReadOnly(BasePermission):
