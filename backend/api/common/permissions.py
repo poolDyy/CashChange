@@ -4,6 +4,8 @@ from rest_framework.permissions import SAFE_METHODS, BasePermission
 from rest_framework.request import Request
 from rest_framework.viewsets import ViewSet
 
+from api.common.protocols import UserObjPermissionProtocol
+
 
 __all__ = [
     'IsUnauthenticated',
@@ -14,8 +16,6 @@ __all__ = [
     'HasUserPermsOrReadOnly',
     'ReadOnly',
 ]
-
-from apps.common.models import BaseModel
 
 
 class IsUnauthenticated(BasePermission):
@@ -52,14 +52,14 @@ class IsVerifiedOrReadOnly(BasePermission):
 class HasUserPerms(BasePermission):
     """Проверяет права пользователя на объект модели."""
 
-    def has_object_permission(self, request: Request, view: Type[ViewSet], obj: BaseModel) -> bool:
+    def has_object_permission(self, request: Request, view: Type[ViewSet], obj: UserObjPermissionProtocol) -> bool:
         return obj.user_obj_permission(request.user.id)
 
 
 class HasUserPermsOrReadOnly(BasePermission):
     """Разрешение, которое позволяет только владельцу объекта редактировать или удалять его."""
 
-    def has_object_permission(self, request: Request, view: Type[ViewSet], obj: BaseModel) -> bool:
+    def has_object_permission(self, request: Request, view: Type[ViewSet], obj: UserObjPermissionProtocol) -> bool:
         if request.method in SAFE_METHODS:
             return True
 
