@@ -42,6 +42,16 @@ services:
     networks:
       - cc_network
 
+  centrifugo:
+    image: centrifugo/centrifugo:v6.1
+    env_file:
+      - ./cicd/centrifugo/.env
+    volumes:
+      - ./cicd/centrifugo/config.json:/centrifugo/config.json
+    command: centrifugo -c config.json
+    ports:
+      - '8888:8888'
+
   backend:
     container_name: backend
     build:

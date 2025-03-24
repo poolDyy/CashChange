@@ -15,6 +15,8 @@ from .dto import AttachmentDTO
 
 __all__ = ['MessageCreateService']
 
+from ...signals import message_create
+
 
 @dataclasses.dataclass
 class MessageCreateService(FromDictMixin):
@@ -75,4 +77,9 @@ class MessageCreateService(FromDictMixin):
 
     def _post_create(self) -> None:
         """Метод для задач после создания сообщения."""
-        # todo: отрпавить сообщения в вебсокет и оповещения в тг о новом сообщении.
+        message_create.send(
+            sender=self.__class__,
+            chat=self.chat,
+            message=self.message,
+            user_sender=self.sender,
+        )

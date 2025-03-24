@@ -31,6 +31,7 @@ DJANGO_APPS = [
 ]
 
 OUR_DJANGO_APPS = [
+    'apps.centrifugo.apps.CentrifugoConfig',
     'apps.chat.apps.ChatConfig',
     'apps.feedback.apps.FeedbackConfig',
     'apps.geo.apps.GeoConfig',
@@ -210,4 +211,3 @@ SPECTACULAR_SETTINGS = {
 
 CENTIFUGO_SECRET = env('CENTIFUGO_SECRET')
 CENTRIFUGO_HTTP_API_KEY = env('CENTRIFUGO_HTTP_API_KEY')
-CENTIFUGO_EXP_TIME = timedelta(days=1)

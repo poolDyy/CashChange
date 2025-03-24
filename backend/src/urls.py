@@ -11,6 +11,12 @@ urlpatterns = [
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='docs'),
+    # centrifugo
+    path(
+        'ws/',
+        include('api.centrifugo.urls'),
+        name='ws',
+    ),
     # own api
     path(
         'api/',

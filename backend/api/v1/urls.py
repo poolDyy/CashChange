@@ -25,11 +25,6 @@ urlpatterns = [
         name='feedback',
     ),
     path(
-        'centrifugo/',
-        include('api.v1.centrifugo.urls', namespace='centrifugo'),
-        name='centrifugo',
-    ),
-    path(
         'chat/',
         include('api.v1.chat.urls', namespace='chat'),
         name='chat',
