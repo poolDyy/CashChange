@@ -37,6 +37,8 @@ services:
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
       - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    ports:
+      - "6379:6379"
     volumes:
       - 'redis_data:/bitnami/redis/data'
     networks:
@@ -51,6 +53,8 @@ services:
     command: centrifugo -c config.json
     ports:
       - '8888:8888'
+    networks:
+      - cc_network
 
   backend:
     container_name: backend
@@ -71,6 +75,35 @@ services:
       - redis
     command: /bin/sh -c "./manage.py migrate && ./manage.py runserver 0.0.0.0:8000"
     # command:  /bin/sh -c "./manage.py migrate &&  uwsgi --master --http :8000 --module src.wsgi"
+
+  celery_worker:
+    container_name: celery_worker
+    build:
+      context: ./backend
+      dockerfile: ../cicd/docker/backend/Dockerfile
+    env_file:
+      - backend/.env
+    volumes:
+      - ./backend:/srv/
+    depends_on:
+      - redis
+    networks:
+      - cc_network
+    restart: unless-stopped
+    command: celery -A src worker --loglevel=info --concurrency=2 -Ofair
+
+  flower:
+    container_name: flower
+    image: mher/flower
+    command: celery -A src flower
+    env_file:
+      - backend/.env
+    ports:
+      - "5555:5555"
+    depends_on:
+      - celery_worker
+    networks:
+      - cc_network
 
   telegram:
     container_name: telegram

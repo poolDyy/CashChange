@@ -176,11 +176,15 @@ STORAGES = {
     },
 }
 
+REDIS_HOST = env('REDIS_HOST', default='redis')
+REDIS_PORT = env('REDIS_PORT', default='6379')
+REDIS_DB = env('REDIS_DB', default='0')
+REDIS_DB_CELERY = env('REDIS_DB_CELERY', default='0')
 
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
             'MAX_ENTRIES': 5000,
@@ -188,18 +192,13 @@ CACHES = {
     },
     'redis-cache': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/1',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
             'MAX_ENTRIES': 5000,
         },
     },
 }
-
-
-REDIS_HOST = env('REDIS_HOST', default='redis')
-REDIS_PORT = env('REDIS_PORT', default='6379')
-REDIS_DB = 0
 
 
 SPECTACULAR_SETTINGS = {
@@ -211,3 +210,11 @@ SPECTACULAR_SETTINGS = {
 
 CENTIFUGO_SECRET = env('CENTIFUGO_SECRET')
 CENTRIFUGO_HTTP_API_KEY = env('CENTRIFUGO_HTTP_API_KEY')
+
+
+CELERY_BROKER_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB_CELERY}'
+CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB_CELERY}'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
