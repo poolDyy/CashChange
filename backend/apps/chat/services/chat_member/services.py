@@ -3,8 +3,6 @@ from apps.chat.models import ChatMember, Message
 
 __all__ = ['ChatMemberUpdateLastMessageService']
 
-from apps.chat.signals.signals import last_read_message_update
-
 
 class ChatMemberUpdateLastMessageService:
     """Класс обновляющий последнее прочитанное сообщение."""
@@ -19,4 +17,3 @@ class ChatMemberUpdateLastMessageService:
         if self._is_message_new(message=message):
             self.chat_member.last_read_message = message
             self.chat_member.save()
-            last_read_message_update.send(sender=self.__class__, message=message, chat_member=self.chat_member)

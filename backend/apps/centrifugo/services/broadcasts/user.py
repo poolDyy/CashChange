@@ -29,17 +29,3 @@ class UserBroadcastService(BroadcastABCService):
             self._broadcast(payload_data)
 
         transaction.on_commit(_message_counter_broadcast)
-
-    def update_last_read_message_broadcast(self, message_id: int, data: dict) -> None:
-        def _update_last_read_message_broadcast() -> None:
-            payload_data = {
-                'channels': [self.get_channel(user_id) for user_id in self.users_id],
-                'data': {
-                    'type': 'update_last_read_message',
-                    'body': data,
-                },
-                'idempotency_key': f'update_last_read_message_{message_id}',
-            }
-            self._broadcast(payload_data)
-
-        transaction.on_commit(_update_last_read_message_broadcast)
